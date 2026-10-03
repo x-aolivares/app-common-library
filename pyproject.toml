@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "app-common-library"
-version = "1.0.1"
+version = "1.0.2"
 description = "Librería de utilidades comunes."
 requires-python = ">=3.8"
 dependencies = [
