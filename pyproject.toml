@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "app-common-library"
+version = "1.0.1"
+description = "Librería de utilidades comunes."
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
