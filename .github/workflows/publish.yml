@@ -1,0 +1,37 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: pip install . pytest
+      - name: Run tests
+        run: python -m pytest tests/ -q
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build wheel
+        run: |
+          pip install build twine
+          python -m build --wheel
+      - name: Upload to internal PyPI (devpi)
+        env:
+          TWINE_USERNAME: ${{ secrets.DEVPI_USER }}
+          TWINE_PASSWORD: ${{ secrets.DEVPI_PASSWORD }}
+        run: twine upload --repository-url "${{ secrets.DEVPI_URL }}" --non-interactive dist/*.whl
